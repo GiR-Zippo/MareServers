@@ -67,6 +67,7 @@ public class Startup
         ConfigureRedis(services, mareConfig);
 
         services.AddSingleton<SecretKeyAuthenticatorService>();
+        services.AddSingleton<AccountRegistrationService>();
         services.AddSingleton<GeoIPService>();
 
         services.AddHostedService(provider => provider.GetRequiredService<GeoIPService>());
