@@ -153,6 +153,17 @@ public partial class MareHub
     }
 
     [Authorize(Policy = "Identified")]
+    public async Task<List<OnlineUserIdentDto>> UserGetOnlinePairs() //remove at some point
+    {
+        _logger.LogCallInfo();
+
+        var allPairedUsers = await GetAllPairedUnpausedUsers().ConfigureAwait(false);
+        var pairs = await GetOnlineUsers(allPairedUsers).ConfigureAwait(false);
+        await SendOnlineToAllPairedUsers().ConfigureAwait(false);
+        return pairs.Select(p => new OnlineUserIdentDto(new UserData(p.Key), p.Value)).ToList();
+    }
+
+    [Authorize(Policy = "Identified")]
     public async Task<List<OnlineUserIdentDto>> UserGetOnlinePairs(CensusDataDto? censusData)
     {
         _logger.LogCallInfo();
