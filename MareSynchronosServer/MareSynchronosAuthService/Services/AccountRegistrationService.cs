@@ -106,6 +106,7 @@ public class AccountRegistrationService
             User = user,
         };
 
+        auth.PrimaryUserUID = user.UID;
         await _mareDbContext.Users.AddAsync(user).ConfigureAwait(false);
         await _mareDbContext.Auth.AddAsync(auth).ConfigureAwait(false);
 		await _mareDbContext.SaveChangesAsync().ConfigureAwait(false);
