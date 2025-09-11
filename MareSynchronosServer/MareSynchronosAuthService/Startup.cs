@@ -184,30 +184,6 @@ public class Startup
         
         if (endpoint is DnsEndPoint dnsEndPoint) { address = dnsEndPoint.Host; port = dnsEndPoint.Port; }
         if (endpoint is IPEndPoint ipEndPoint) { address = ipEndPoint.Address.ToString(); port = ipEndPoint.Port; }
-        /*
-        var redisConfiguration = new RedisConfiguration()
-        {
-            AbortOnConnectFail = true,
-            KeyPrefix = "",
-            Hosts = new RedisHost[]
-            {
-                new RedisHost(){ Host = address, Port = port },
-            },
-            AllowAdmin = true,
-            ConnectTimeout = options.ConnectTimeout,
-            Database = 0,
-            Ssl = false,
-            Password = options.Password,
-            ServerEnumerationStrategy = new ServerEnumerationStrategy()
-            {
-                Mode = ServerEnumerationStrategy.ModeOptions.All,
-                TargetRole = ServerEnumerationStrategy.TargetRoleOptions.Any,
-                UnreachableServerAction = ServerEnumerationStrategy.UnreachableServerActionOptions.Throw,
-            },
-            MaxValueLength = 1024,
-            PoolSize = mareConfig.GetValue(nameof(ServerConfiguration.RedisPool), 50),
-            SyncTimeout = options.SyncTimeout,
-        };*/
 
         var muxer = ConnectionMultiplexer.Connect(options);
         var db = muxer.GetDatabase();

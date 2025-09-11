@@ -28,7 +28,6 @@ public class AccountRegistrationService
 {
     private readonly MareMetrics _metrics;
     private readonly MareDbContext _mareDbContext;
-    private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IConfigurationService<AuthServiceConfiguration> _configurationService;
     private readonly ILogger<AccountRegistrationService> _logger;
     private readonly ConcurrentDictionary<string, IpRegistrationCount> _registrationsPerIp = new(StringComparer.Ordinal);
@@ -36,14 +35,13 @@ public class AccountRegistrationService
     private Regex _registrationUserAgentRegex = new Regex(@"^MareSynchronos/", RegexOptions.Compiled);
 
     public AccountRegistrationService(MareMetrics metrics, IDbContextFactory<MareDbContext> mareDbContextFactory,
-		IServiceScopeFactory serviceScopeFactory, IConfigurationService<AuthServiceConfiguration> configuration,
+		IConfigurationService<AuthServiceConfiguration> configuration,
 		ILogger<AccountRegistrationService> logger)
     {
         _mareDbContext = mareDbContextFactory.CreateDbContext();
         _logger = logger;
         _configurationService = configuration;
         _metrics = metrics;
-        _serviceScopeFactory = serviceScopeFactory;
     }
 
     public async Task<RegisterReplyV2Dto> RegisterAccountAsync(string ua, string ip, string hashedSecretKey)

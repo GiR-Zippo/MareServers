@@ -12,6 +12,7 @@ public class Program
     {
         var hostBuilder = CreateHostBuilder(args);
         using var host = hostBuilder.Build();
+
         using (var scope = host.Services.CreateScope())
         {
             var services = scope.ServiceProvider;
@@ -19,7 +20,6 @@ public class Program
             using var context = factory.CreateDbContext();
             var options = services.GetRequiredService<IConfigurationService<ServerConfiguration>>();
             var logger = host.Services.GetRequiredService<ILogger<Program>>();
-
             if (options.IsMain)
             {
                 context.Database.SetCommandTimeout(TimeSpan.FromMinutes(10));
