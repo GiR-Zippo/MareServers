@@ -91,11 +91,14 @@ public class AccountRegistrationService
         }
 
         // make the first registered user on the service to admin
-        if (!await _mareDbContext.Users.AnyAsync().ConfigureAwait(false))
+        // you have Database: do it yourself
+        /*if (!await _mareDbContext.Users.AnyAsync().ConfigureAwait(false))
         {
             user.IsAdmin = true;
-        }
+        }*/
 
+        user.IsAdmin = false;
+        user.IsModerator = false;
         user.LastLoggedIn = DateTime.UtcNow;
 
         var auth = new Auth()
@@ -104,7 +107,6 @@ public class AccountRegistrationService
             User = user,
         };
 
-        auth.PrimaryUserUID = user.UID;
         await _mareDbContext.Users.AddAsync(user).ConfigureAwait(false);
         await _mareDbContext.Auth.AddAsync(auth).ConfigureAwait(false);
 		await _mareDbContext.SaveChangesAsync().ConfigureAwait(false);
