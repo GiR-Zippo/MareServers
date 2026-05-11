@@ -106,9 +106,9 @@ public class MareCensus : IHostedService
         {
             var fields = worldsParser.ReadFields();
             var id = ushort.Parse(fields[0], CultureInfo.InvariantCulture);
-            var name = fields[1];
-            var dc = short.Parse(fields[5], CultureInfo.InvariantCulture);
-            var isPublic = bool.Parse(fields[6]);
+            var name = fields[2];
+            var dc = short.Parse(fields[3], CultureInfo.InvariantCulture);
+            var isPublic = bool.Parse(fields[9]);
             if (!_dcs.ContainsKey(dc) || !isPublic) continue;
             _worlds[id] = (name, dc);
             _logger.LogInformation("World: ID: {id}, Name: {name}, DC: {dc}", id, name, dc);
