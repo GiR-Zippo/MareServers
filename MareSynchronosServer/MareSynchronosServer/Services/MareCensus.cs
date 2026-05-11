@@ -72,8 +72,8 @@ public class MareCensus : IHostedService
 
         Dictionary<ushort, short> worldDcs = new();
 
-        var dcs = await client.GetStringAsync("https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/WorldDCGroupType.csv", cancellationToken).ConfigureAwait(false);
-        // dc: https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/WorldDCGroupType.csv
+        var dcs = await client.GetStringAsync("https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/en/WorldDCGroupType.csv", cancellationToken).ConfigureAwait(false);
+        // dc: https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/en/WorldDCGroupType.csv
         // id, name, region
 
         using var dcsReader = new StringReader(dcs);
@@ -92,8 +92,8 @@ public class MareCensus : IHostedService
             _dcs[id] = name;
         }
 
-        var worlds = await client.GetStringAsync("https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/World.csv", cancellationToken).ConfigureAwait(false);
-        // world: https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/World.csv
+        var worlds = await client.GetStringAsync("https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/en/World.csv", cancellationToken).ConfigureAwait(false);
+        // world: https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/en/World.csv
         // id, internalname, name, region, usertype, datacenter, ispublic
 
         using var worldsReader = new StringReader(worlds);
@@ -114,8 +114,8 @@ public class MareCensus : IHostedService
             _logger.LogInformation("World: ID: {id}, Name: {name}, DC: {dc}", id, name, dc);
         }
 
-        var races = await client.GetStringAsync("https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/Race.csv", cancellationToken).ConfigureAwait(false);
-        // race: https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/Race.csv
+        var races = await client.GetStringAsync("https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/en/Race.csv", cancellationToken).ConfigureAwait(false);
+        // race: https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/en/Race.csv
         // id, masc name, fem name, other crap I don't care about
 
         using var raceReader = new StringReader(races);
@@ -134,8 +134,8 @@ public class MareCensus : IHostedService
             _logger.LogInformation("Race: ID: {id}, Name: {name}", id, name);
         }
 
-        var tribe = await client.GetStringAsync("https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/Tribe.csv", cancellationToken).ConfigureAwait(false);
-        // tribe: https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/Tribe.csv
+        var tribe = await client.GetStringAsync("https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/en/Tribe.csv", cancellationToken).ConfigureAwait(false);
+        // tribe: https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/en/Tribe.csv
         // id masc name, fem name, other crap I don't care about
 
         using var tribeReader = new StringReader(tribe);
