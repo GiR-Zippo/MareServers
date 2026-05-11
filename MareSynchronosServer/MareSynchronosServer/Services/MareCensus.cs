@@ -72,8 +72,8 @@ public class MareCensus : IHostedService
 
         Dictionary<ushort, short> worldDcs = new();
 
-        var dcs = await client.GetStringAsync("https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/WorldDCGroupType.csv", cancellationToken).ConfigureAwait(false);
-        // dc: https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/WorldDCGroupType.csv
+        var dcs = await client.GetStringAsync("https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/en/WorldDCGroupType.csv", cancellationToken).ConfigureAwait(false);
+        // dc: https://raw.githubusercontent.com/xivapi/ffxiv-datamining/master/csv/en/WorldDCGroupType.csv
         // id, name, region
 
         using var dcsReader = new StringReader(dcs);
