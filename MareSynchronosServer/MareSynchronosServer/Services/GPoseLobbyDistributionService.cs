@@ -197,7 +197,7 @@ public sealed class GPoseLobbyDistributionService : IHostedService, IDisposable
 
             try
             {
-                if (!lobbyId.Value.Values.Any())
+                if (lobbyId.Value.Values.Count == 0)
                     continue;
 
                 var gposeLobbyUsers = await _redisDb.GetAsync<List<string>>($"GposeLobby:{lobbyId.Key}").ConfigureAwait(false);

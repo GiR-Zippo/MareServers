@@ -3,7 +3,7 @@
 public record PausedEntry
 {
     public string UID { get; set; }
-    public List<PauseState> PauseStates { get; set; } = new();
+    public IList<PauseState> PauseStates { get; set; } = [];
 
     public PauseInfo IsDirectlyPaused => PauseStateWithoutGroups == null ? PauseInfo.NoConnection
         : PauseStates.First(g => g.GID == null).IsPaused ? PauseInfo.Paused : PauseInfo.Unpaused;

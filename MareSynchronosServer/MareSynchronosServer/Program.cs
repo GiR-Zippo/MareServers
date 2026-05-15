@@ -1,8 +1,8 @@
-using Microsoft.EntityFrameworkCore;
 using MareSynchronosShared.Data;
 using MareSynchronosShared.Metrics;
 using MareSynchronosShared.Services;
 using MareSynchronosShared.Utils.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace MareSynchronosServer;
 

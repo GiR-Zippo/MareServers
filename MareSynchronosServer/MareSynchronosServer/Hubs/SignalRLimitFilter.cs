@@ -8,23 +8,23 @@ namespace MareSynchronosServer.Hubs;
 public class SignalRLimitFilter : IHubFilter
 {
     private readonly IRateLimitProcessor _processor;
-    private readonly IHttpContextAccessor accessor;
-    private readonly ILogger<SignalRLimitFilter> logger;
-    private static readonly SemaphoreSlim ConnectionLimiterSemaphore = new(20, 20);
-    private static readonly SemaphoreSlim DisconnectLimiterSemaphore = new(20, 20);
+    private readonly IHttpContextAccessor _accessor;
+    private readonly ILogger<SignalRLimitFilter> _logger;
+    private static readonly SemaphoreSlim _connectionLimiterSemaphore = new(20, 20);
+    private static readonly SemaphoreSlim _disconnectLimiterSemaphore = new(20, 20);
 
     public SignalRLimitFilter(
         IOptions<IpRateLimitOptions> options, IProcessingStrategy processing, IIpPolicyStore policyStore, IHttpContextAccessor accessor, ILogger<SignalRLimitFilter> logger)
     {
         _processor = new IpRateLimitProcessor(options?.Value, policyStore, processing);
-        this.accessor = accessor;
-        this.logger = logger;
+        this._accessor = accessor;
+        this._logger = logger;
     }
 
     public async ValueTask<object> InvokeMethodAsync(
         HubInvocationContext invocationContext, Func<HubInvocationContext, ValueTask<object>> next)
     {
-        var ip = accessor.GetIpAddress();
+        var ip = _accessor.GetIpAddress();
         var client = new ClientRequestIdentity
         {
             ClientIp = ip,
@@ -39,7 +39,7 @@ public class SignalRLimitFilter : IHubFilter
             {
                 var authUserId = invocationContext.Context.User.Claims?.SingleOrDefault(c => string.Equals(c.Type, MareClaimTypes.Uid, StringComparison.Ordinal))?.Value ?? "Unknown";
                 var retry = counter.Timestamp.RetryAfterFrom(rule);
-                logger.LogWarning("Method rate limit triggered from {ip}/{authUserId}: {method}", ip, authUserId, invocationContext.HubMethodName);
+                _logger.LogWarning("Method rate limit triggered from {ip}/{authUserId}: {method}", ip, authUserId, invocationContext.HubMethodName);
                 throw new HubException($"call limit {retry}");
             }
         }
@@ -50,10 +50,10 @@ public class SignalRLimitFilter : IHubFilter
     // Optional method
     /* public async Task OnConnectedAsync(HubLifetimeContext context, Func<HubLifetimeContext, Task> next)
     {
-        await ConnectionLimiterSemaphore.WaitAsync().ConfigureAwait(false);
+        await _connectionLimiterSemaphore.WaitAsync().ConfigureAwait(false);
         try
         {
-            var ip = accessor.GetIpAddress();
+            var ip = _accessor.GetIpAddress();
             var client = new ClientRequestIdentity
             {
                 ClientIp = ip,
@@ -66,8 +66,8 @@ public class SignalRLimitFilter : IHubFilter
                 if (counter.Count > rule.Limit)
                 {
                     var retry = counter.Timestamp.RetryAfterFrom(rule);
-                    logger.LogWarning("Connection rate limit triggered from {ip}", ip);
-                    ConnectionLimiterSemaphore.Release();
+                    _logger.LogWarning("Connection rate limit triggered from {ip}", ip);
+                    _connectionLimiterSemaphore.Release();
                     throw new HubException($"Connection rate limit {retry}");
                 }
             }
@@ -78,21 +78,21 @@ public class SignalRLimitFilter : IHubFilter
         }
         catch (Exception ex)
         {
-            logger.LogWarning(ex, "Error on OnConnectedAsync");
+            _logger.LogWarning(ex, "Error on OnConnectedAsync");
         }
         finally
         {
-            ConnectionLimiterSemaphore.Release();
+            _connectionLimiterSemaphore.Release();
         }
     }
 
     public async Task OnDisconnectedAsync(
         HubLifetimeContext context, Exception exception, Func<HubLifetimeContext, Exception, Task> next)
     {
-        await DisconnectLimiterSemaphore.WaitAsync().ConfigureAwait(false);
+        await _disconnectLimiterSemaphore.WaitAsync().ConfigureAwait(false);
         if (exception != null)
         {
-            logger.LogWarning(exception, "InitialException on OnDisconnectedAsync");
+            _logger.LogWarning(exception, "InitialException on OnDisconnectedAsync");
         }
 
         try
@@ -102,11 +102,11 @@ public class SignalRLimitFilter : IHubFilter
         }
         catch (Exception e)
         {
-            logger.LogWarning(e, "ThrownException on OnDisconnectedAsync");
+            _logger.LogWarning(e, "ThrownException on OnDisconnectedAsync");
         }
         finally
         {
-            DisconnectLimiterSemaphore.Release();
+            _disconnectLimiterSemaphore.Release();
         }
     } */
 }

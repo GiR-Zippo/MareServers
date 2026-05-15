@@ -10,7 +10,7 @@ namespace MareSynchronosServer.Services;
 
 public class UserCleanupService : IHostedService
 {
-    private readonly MareMetrics metrics;
+    private readonly MareMetrics _metrics;
     private readonly ILogger<UserCleanupService> _logger;
     private readonly IDbContextFactory<MareDbContext> _mareDbContextFactory;
     private readonly IConfigurationService<ServerConfiguration> _configuration;
@@ -18,7 +18,7 @@ public class UserCleanupService : IHostedService
 
     public UserCleanupService(MareMetrics metrics, ILogger<UserCleanupService> logger, IDbContextFactory<MareDbContext> mareDbContextFactory, IConfigurationService<ServerConfiguration> configuration)
     {
-        this.metrics = metrics;
+        this._metrics = metrics;
         _logger = logger;
         _mareDbContextFactory = mareDbContextFactory;
         _configuration = configuration;
