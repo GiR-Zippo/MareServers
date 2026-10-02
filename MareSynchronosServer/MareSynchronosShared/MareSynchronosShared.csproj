@@ -20,33 +20,33 @@
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Karambolo.Extensions.Logging.File" Version="4.1.0" />
-		<PackageReference Include="Meziantou.Analyzer" Version="3.0.96">
+		<PackageReference Include="Karambolo.Extensions.Logging.File" Version="4.1.1" />
+		<PackageReference Include="Meziantou.Analyzer" Version="3.0.291">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.8" />
-		<PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="10.0.8" />
-		<PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="10.0.8" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.8" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.8" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.8">
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.12" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="10.0.12" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="10.0.12" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.12" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.12" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.12">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.8" />
-		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.18.0" />
-		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.12" />
+		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.23.0" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
 		<PackageReference Include="prometheus-net" Version="8.2.1" />
 		<PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />
-		<PackageReference Include="StackExchange.Redis" Version="2.13.17" />
-		<PackageReference Include="StackExchange.Redis.Extensions.AspNetCore" Version="12.2.0" />
-		<PackageReference Include="StackExchange.Redis.Extensions.Core" Version="12.2.0" />
-		<PackageReference Include="StackExchange.Redis.Extensions.System.Text.Json" Version="12.2.0" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.18.0" />
+		<PackageReference Include="StackExchange.Redis" Version="3.3.1" />
+		<PackageReference Include="StackExchange.Redis.Extensions.AspNetCore" Version="13.0.1" />
+		<PackageReference Include="StackExchange.Redis.Extensions.Core" Version="13.0.1" />
+		<PackageReference Include="StackExchange.Redis.Extensions.System.Text.Json" Version="13.0.1" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.23.0" />
 		<PackageReference Include="System.Linq.Async" Version="7.0.1" />
 	</ItemGroup>
 
