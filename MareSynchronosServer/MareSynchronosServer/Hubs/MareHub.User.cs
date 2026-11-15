@@ -11,8 +11,6 @@ using MareSynchronosShared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 
 namespace MareSynchronosServer.Hubs;
 
@@ -363,17 +361,31 @@ public partial class MareHub
 
         if (!string.IsNullOrEmpty(dto.ProfilePictureBase64))
         {
-            byte[] imageData = Convert.FromBase64String(dto.ProfilePictureBase64);
-            using MemoryStream ms = new(imageData);
-            var format = await Image.DetectFormatAsync(ms).ConfigureAwait(false);
-            if (!format.FileExtensions.Contains("png", StringComparer.OrdinalIgnoreCase))
+            // Base64 is ~4/3 bigger as raw data
+            if (dto.ProfilePictureBase64.Length > 250 * 1024 * 4 / 3 + 4)
             {
-                await Clients.Caller.Client_ReceiveServerMessage(MessageSeverity.Error, "Your provided image file is not in PNG format").ConfigureAwait(false);
+                await Clients.Caller.Client_ReceiveServerMessage(MessageSeverity.Error, "Your provided image file is larger than 256x256 or more than 250KiB.").ConfigureAwait(false);
                 return;
             }
-            using var image = Image.Load<Rgba32>(imageData);
 
-            if (image.Width > 256 || image.Height > 256 || (imageData.Length > 250 * 1024))
+            byte[] imageData;
+            try
+            {
+                imageData = Convert.FromBase64String(dto.ProfilePictureBase64);
+            }
+            catch (FormatException)
+            {
+                await Clients.Caller.Client_ReceiveServerMessage(MessageSeverity.Error, "Your provided image data is invalid.").ConfigureAwait(false);
+                return;
+            }
+
+            if (!PngValidator.TryRead(imageData, out var width, out var height))
+            {
+                await Clients.Caller.Client_ReceiveServerMessage(MessageSeverity.Error, "Your provided image file is not a valid PNG file").ConfigureAwait(false);
+                return;
+            }
+
+            if (width > 256 || height > 256 || imageData.Length > 250 * 1024)
             {
                 await Clients.Caller.Client_ReceiveServerMessage(MessageSeverity.Error, "Your provided image file is larger than 256x256 or more than 250KiB.").ConfigureAwait(false);
                 return;
